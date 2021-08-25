@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--指定properties文件的位置，从类路径根开始找文件-->
+    <properties resource="jdbc.properties"/>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <typeAliases>
+        <!--第一种方式-->
+        <!--<typeAlias type="com.wkj.domain.Student" alias="Student"/>-->
+        <!--第二种方式-->
+        <package name="com.wkj.domain"/>
+        <!--使用的时候可以直接使用类名-->
+    </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+    <environments default="mydev">
+        <environment id="mydev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--<property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/wkjtest?characterEncoding=utf8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="wy07140915"/>-->
+
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--第一种方式-->
+        <!--<mapper resource="com/wkj/dao/StudentDao.xml"/>-->
+        <!--第二种方式
+            name:xml文件(mapper文件)所在的包名，这个包中所有xml文件一次都能加载给mybatis
+            使用package要求：
+            1、mapper文件名称需要和接口名称一样，区分大小写的一样
+            2、mapper文件和dao接口需要在同一目录
+        -->
+        <package name="com.wkj.dao"/>
+    </mappers>
+</configuration>
